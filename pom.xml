@@ -1,21 +1,36 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <!--
-     - Basic Information
-     -->
+    <!-- - Basic Information -->
+    <groupId>greenpepper-open</groupId>
     <artifactId>greenpepper-core</artifactId>
-    <packaging>jar</packaging>
+    <version>3.0</version>
     <name>GreenPepper Core</name>
-
-    <parent>
-        <groupId>greenpepper-open</groupId>
-        <artifactId>greenpepper-open</artifactId>
-        <version>3.0</version>
-    </parent>
+    
+    <properties>
+      <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 
     <dependencies>
-        <!-- NO dependencies other than JUnit and JMock as defined in the parent pom.xml -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.10</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jmock</groupId>
+            <artifactId>jmock-junit4</artifactId>
+            <version>2.4.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>1.9.5</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -33,19 +48,34 @@
                 <filtering>false</filtering>
             </resource>
         </resources>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.1</version>
+                    <configuration>
+                        <source>1.6</source>
+                        <target>1.6</target>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
         <plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<configuration>
-					<excludes>
-						<exclude>**/Testing*.java</exclude>
-					</excludes>
-				</configuration>
-			</plugin>
-			<plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.15</version>
+                <configuration>
+                    <excludes>
+                        <exclude>**/Testing*.java</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
+                <version>2.4</version>
                 <executions>
                     <execution>
                         <goals>
@@ -54,65 +84,22 @@
                     </execution>
                 </executions>
             </plugin>
-			<plugin>
-		        <groupId>org.codehaus.mojo</groupId>
-		        <artifactId>build-helper-maven-plugin</artifactId>
-		        <executions>
-		          <execution>
-		            <id>add-source</id>
-		            <phase>generate-sources</phase>
-		            <goals>
-		              <goal>add-source</goal>
-		            </goals>
-		            <configuration>
-		              <sources>
-		                <source>target/filtered-sources</source>
-		              </sources>
-		            </configuration>
-		          </execution>
-		        </executions>
-		      </plugin>
             <plugin>
-                <groupId>greenpepper</groupId>
-                <artifactId>greenpepper-maven-plugin</artifactId>
-                <version>${greenpepper.maven.plugin.version}</version>
-                <configuration>
-                    <source>1.5</source>
-                    <target>1.5</target>
-                    <fixtureSourceDirectory>src/fixture/java</fixtureSourceDirectory>
-                    <fixtureOutputDirectory>target/fixture-test-classes</fixtureOutputDirectory>
-                    <specsDirectory>src/specs</specsDirectory>
-                    <reportsDirectory>target/greenpepper-reports</reportsDirectory>
-					<reportsType>xml</reportsType>
-                    <systemUnderDevelopment>com.greenpepper.systemunderdevelopment.GreenPepperSystemUnderDevelopment</systemUnderDevelopment>
-                    <resources>
-                        <resource>
-                            <directory>src/fixture/resources</directory>
-                        </resource>
-                    </resources>
-                    <repositories>
-                        <repository>
-                            <type>com.greenpepper.runner.repository.GreenPepperRepository</type>
-                            <root>
-                                <![CDATA[http://www.greenpeppersoftware.com/confluence/rpc/xmlrpc?handler=greenpepper1&sut=GreenPepperOpen - Core Java&includeStyle=false&postExecutionResult=${greenpepper.postExecutionResult}]]>
-                            </root>
-                            <name>greenpepper</name>
-                            <suites>
-                                <suite>GreenPepper-GREENPEPPER</suite>
-                            </suites>
-                        </repository>
-                    </repositories>
-                </configuration>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>1.8</version>
                 <executions>
                     <execution>
-                        <id>greenpepper</id>
+                        <id>add-source</id>
+                        <phase>generate-sources</phase>
                         <goals>
-                            <goal>compile</goal>
-                            <goal>resources</goal>
-                            <goal>fixture-jar</goal>
-                            <goal>run</goal>
+                            <goal>add-source</goal>
                         </goals>
-						<phase>test</phase>
+                        <configuration>
+                            <sources>
+                                <source>target/filtered-sources</source>
+                            </sources>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
